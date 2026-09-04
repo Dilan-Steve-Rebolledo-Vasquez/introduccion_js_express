@@ -1,0 +1,16 @@
+{
+  "CC-003": {
+    "occurrences": 2,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-09-04T18:34:30.958Z",
+    "last_seen": "2026-09-04T18:34:56.353Z"
+  },
+  "JS-003": {
+    "occurrences": 16,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-09-04T18:34:30.958Z",
+    "last_seen": "2026-09-04T18:34:56.355Z"
+  }
+}
