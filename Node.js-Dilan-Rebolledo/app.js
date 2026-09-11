@@ -4,10 +4,11 @@ const app = express();
 
 require('dotenv').config();
 const port = process.env.PUERTO || 3030
-
+const jwt = require("jsonwebtoken")
 //importacion de modulo
 const registro = require('./middleware/registroMiddleware.js')
 const manejoerror = require ('./middleware/manejadorErrores.js')
+const autenticacion = require('./middleware/autenticacion.js')
 
 
 
@@ -129,8 +130,25 @@ app.get("/error",(req,res,next)=>{
 })
 
 //ruta proyegida
-app.get("/api/rutaprotegida",(req,res,) =>{
+app.get("/api/rutaprotegida",autenticacion,(req,res,) =>{
     res.status(200).json({mensaje:"Esta es mi ruta protegida"})
+})
+
+app.post("/api/login",(req,res,) =>{
+  const usuarioBd = {
+    "usuario":"Dilan",
+    "clave":"1234"
+  }
+  const {usuario, clave} = req.body
+  if(usuario !== usuarioBd.usuario || clave !== usuarioBd.clave){
+    res.status(400).json({mensaje: "Credenciales no validas, usuario y clave incorrectos"})
+  }
+  const token = jwt.sign(
+    {"usuario": req.usuario},
+    process.env.JWT_SECRET,
+    {expiresIn: "1h"}
+  )
+  res.json({token})
 })
 
 
