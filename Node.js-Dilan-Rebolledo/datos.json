@@ -1,16 +1,25 @@
 [
-    {
-        "id": 1,
-        "nombre": "Dilan Rebolledo",
-        "correo ": "dilan@gmail.com",
-        "imagen": "/imagenes/mifoto.png",
-        "clave": "1234"
-    },
-    {
-        "id": 1,
-        "nombre": "esteban castrillon",
-        "correo ": "esteban@gmail.com",
-        "imagen": "/imagenes/mifoto.png",
-        "clave": "xxx"
-    }
+  {
+    "id": 1,
+    "nombre": "Dilan Rebolledo",
+    "correo ": "dilan@gmail.com",
+    "imagen": "/imagenes/mifoto.png",
+    "clave": "1234"
+  },
+  {
+    "id": 1,
+    "nombre": "esteban castrillon",
+    "correo ": "esteban@gmail.com",
+    "imagen": "/imagenes/mifoto.png",
+    "clave": "xxx"
+  },
+  {
+    "imagen": "sin imagen"
+  },
+  {
+    "nombre": "Dilan",
+    "edad": "17",
+    "correo": "dilan@gamil.com",
+    "imagen": "sin imagen"
+  }
 ]
