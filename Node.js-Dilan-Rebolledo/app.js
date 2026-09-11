@@ -1,73 +1,126 @@
-const express = require("express");
+const { error } = require('console');
+const express = require('express');
+const app = express();
+require('dotenv').config();
+const port = 3000;
+
+//importacion de modulo
+const registro = require('./middleware/registroMiddleware')
 
 
 
 
 
+// middleware para parseas datos del body
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
+//middleware propios
+//este middleware se ejecuta simpre que se ha una peticion sea (GET,POST,PUT-PATCH O DELETE)
+app.use((req,res,next)=>{
+    console.log(`Tiempo en milisegundos:${Date.now()}`)
+    console.log(`Fecha:${new Date().toISOString()}`)
+    next()
 
+})
 
+//usar el historial peticiones
+app.use(registro)
 
-const ruta = require(patch)
-const rutaArchivo = ruta.join(__dirname, "datos.json")
+//leer archivo
+
+const sistemaActivo = require("fs");
+const ruta =require("path");
+const { json } = require('stream/consumers');
+const rutaArchivo = ruta.join(__dirname,"datos.json")
 //libreria para subir archivos
-const multer = require ("multer")
-//configurar el almacenamiento archivos
+
+const multer = require("multer")
+
+//configurar almacenamiento de archivos
+
 const almacenamiento = multer.diskStorage({
-  desstination:(req,file,cb)=>{
-    cb(null, "misImagenes/")
-  },
-  filename:(req,file,cb)=>{
-    const extension = file.extname(File.originalname)
-    cb(null, `${Date.now}${extension}`)
-  }
+    destination:(req,file,cb) => {
+        cb(null, "misImagenes/" )
+    },
+    filename: (req,file,cb)=>{
+        const extension = ruta.extname (file.originalname)
+        cb(null, `${Date.now}${extension}`)
+    }
 })
 
-const cargar = multer ({storage: almacenamiento})
+const cargar = multer ({storage: almacenamiento })
 
 
-//Endpoint para listar aprendices
-app.get('/api/aprendices', (req, res) => {
-  //Leer archivo json
-  sistemaArchivo.readFile(rutaArchivo, "utf-8",(error, datos)=>{
-    if(error){
-      return res.status(500).json({Error: "No se puede leer archivo, o BD"})
-    }
-    const listaAprendices = JSON.parse(datos)
-    res.status(200).json ({"mensaje":listaAprendices})
-  })
-})
+app.get("/", (req, res) => {
+res.send('Aprendicez ficha 3407186');
+});
 
 
 
+app.get("/api/aprendices", (req,res) => {
+    //leer archivo json
+    sistemaActivo.readFile(rutaArchivo,"utf-8",(error,datos)=> {
+        if (error) { 
+            return res.status(500).json({Error : "Error al leer el archivo o BD"})
+        }
+        const listaAprendices = JSON.parse(datos)
+        res.status(200).json({
+        'mensaje':listaAprendices})
 
 
-
-
-
-
-
-
-
-
-//Endpoint para crear aprendices
-app.post('/api/aprendices', (req, res) => {
-  const datosAprendiz = req.body
-  //agregar la ruta de la imagen
-  datosAprendiz.imagen = req.file
-  //Leer el archivo
-  sistemaArchivo.readFile(rutaArchivo, "utf-8",(error, datos)=>{
-    if(error){
-      return res.status(500).json({Error: "No se puede leer archivo, o BD"})
-    }
-    const listaAprendices = JSON.parse(datos)
-    //adicionar al  nuevo aprendiz a la lista
-    listaAprendices.push(datosAprendiz)
-    sistemaArchivo.writeFile(rutaArchivo, JSON.stringify(listaAprendices, null, 2), (error) =>{
-      if(error){
-        return res.status(500).json({Error})
-      }
     })
-    res.status(200).json ({"mensaje":"Aprendiz creado", "Datos aprendiz": datosAprendiz})
-  })
 })
+
+app.get("/api/aprendices/:id", (req,res) => {
+    res.json(200)({
+        'mensaje':'Listar aprendiz'
+    })
+})
+ 
+
+app.post("/api/aprendices", cargar.single("imagen"),(req,res) => {
+    //Validar datos 
+
+
+
+    const datosAprendiz = req.body
+    //agregar la ruta de la imagen
+
+    datosAprendiz.imagen = req.file? `/misImagenes/${req.file.filename}` :"sin imagen"
+    
+    //leer archivo
+    sistemaActivo.readFile(rutaArchivo,"utf-8",(error,datos)=> {
+        if (error) { 
+            return res.status(500).json({Error : "Error al leer el archivo o BD"})
+        }
+        const listaAprendices = JSON.parse(datos)
+        listaAprendices.push(datosAprendiz)
+
+        //acondicionar el nuevo aprendiz a la lista 
+        sistemaActivo.writeFile(rutaArchivo, JSON.stringify(listaAprendices, null, 2),(error)=> {
+            if(error){
+            return res.status(500).json({Error : "No se puede escribir en el archivo o DB"})  
+            }
+            res.status(200).json({'mensaje':"Aprendiz creado","Datos aprendiz": datosAprendiz})
+        }) 
+    })
+})
+
+app.put("/api/aprendices/:id", (req,res) => {
+    res.status(200).json({
+        'mensaje':'editar aprendices'
+    })
+})
+
+app.delete("/api/aprendices/:id", (req,res) => {
+    res.status(200).json({
+        'mensaje':'eliminar aprendices'
+    })
+})
+
+
+
+app.listen(port, () => {
+console.log( `SERVIDOR: http://localhost:${port}`);
+});
