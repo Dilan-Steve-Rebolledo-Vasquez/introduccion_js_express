@@ -2,9 +2,10 @@
 const {Router} =  require("express")
 const enrutador = Router()
 const pruebaRouter = require("./pruebaRouter");
-const listarUsuario = require("../controllers/rutaListarUsuario");
+const usuariosRouter = require("./usuariosRouter");
 
-enrutador.use("/rutaPrueba", pruebaRouter, listarUsuario);
+enrutador.use("/rutaPrueba", pruebaRouter);
+enrutador.use("/usuarios", usuariosRouter)
 //ejemplo
 //enrutador.use("/usuarios", usuariosRouter)
 
