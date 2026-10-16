@@ -1,0 +1,16 @@
+{
+  "ARCH-003": {
+    "occurrences": 1,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-16T14:21:27.578Z",
+    "last_seen": "2026-10-16T14:21:27.578Z"
+  },
+  "JS-001": {
+    "occurrences": 1,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-16T14:40:24.002Z",
+    "last_seen": "2026-10-16T14:40:24.002Z"
+  }
+}
